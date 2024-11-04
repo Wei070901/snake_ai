@@ -1,4 +1,4 @@
-# AI貪食蛇遊戲 README
+# AI貪食蛇遊戲
 
 ## 專案簡介
 
@@ -21,7 +21,7 @@
 
 1. **克隆此專案：**
    ```bash
-   git clone https://github.com/你的用戶名/snake-ai-game.git
+   git clone https://github.com/ChenF0907/snake-ai-game.git
    cd snake-ai-game
    ```
 
@@ -118,10 +118,6 @@
 
 如果有任何問題或建議，歡迎通過以下方式聯絡我：
 
-- **Email:** your_email@example.com
+- **Email:** t09287676@gmail.com
 
 感謝您的參與！
-
-## 授權
-
-本專案使用 [MIT License](LICENSE) 授權，詳細內容請參見授權文件。
