@@ -70,7 +70,7 @@ class SnakeEnv(Env):
         return self.get_state()
     
     def step(self, action):
-        reward = -0.2  # 添加步進獎勵
+        reward = 0  # 添加步進獎勵
         done = False
         info = {}
         
@@ -83,11 +83,9 @@ class SnakeEnv(Env):
         self.food_distance_y = (self.foody - self.y1) / self.height
         if self.x1 >= self.width or self.x1 < 0 or self.y1 >= self.height or self.y1 < 0:
             done = True
-            reward = -15  # 可以調整為更大的負值，如 -1.5，讓模型更加「害怕」撞牆
-        if self.x1_change == 0 and self.y1_change == 0:
-            reward -= 0.5  # 設置停頓懲罰，讓模型避免不必要的停留
+            reward += -15  # 可以調整為更大的負值，如 -1.5，讓模型更加「害怕」撞牆
         
-        distance_reward = (1 / self.length_of_snake)  # 獎勵隨蛇長度衰減
+        distance_reward = (1 + (self.length_of_snake - 1) * 2)  # 獎勵隨蛇長度遞增
         if new_distance < current_distance:
             reward += distance_reward  # 更接近食物，加分
         else:
@@ -114,7 +112,6 @@ class SnakeEnv(Env):
         # 檢查是否撞牆
         if self.x1 >= self.width or self.x1 < 0 or self.y1 >= self.height or self.y1 < 0:
             done = True
-            reward = -10
             if self.render_mode:
                 self.render()
             return self.get_state(), reward, done, info
@@ -129,7 +126,7 @@ class SnakeEnv(Env):
         for x in self.snake_list[:-1]:
             if x == snake_head:
                 done = True
-                reward = -10
+                reward += -10
                 if self.render_mode:
                     self.render()
                 return self.get_state(), reward, done, info
@@ -139,7 +136,7 @@ class SnakeEnv(Env):
             self.foodx = round(random.randrange(0, self.width - self.block_size) / self.block_size) * self.block_size
             self.foody = round(random.randrange(0, self.height - self.block_size) / self.block_size) * self.block_size
             self.length_of_snake += 1
-            reward = 10 + (self.length_of_snake - 1) * 2  # 每多一節，增加 2 分
+            reward += 10 + (self.length_of_snake - 1) * 2  # 每多一節，增加 2 分
         
         # 渲染畫面
         if self.render_mode:
